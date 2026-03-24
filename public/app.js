@@ -11,6 +11,7 @@
 
 async function verificarEmail() {
     // Verificar se já tem email salvo
+	 console.log("🔍 VERIFICANDO EMAIL..."); // <-- ADICIONA ESTA LINHA
     let email = localStorage.getItem('user_email');
     
     if (email && email.includes('@')) {
