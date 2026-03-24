@@ -145,6 +145,33 @@ app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
+
+// Rota para salvar leads (emails)
+app.post('/api/leads', (req, res) => {
+    const { email } = req.body;
+    
+    if (!email) {
+        return res.status(400).json({ error: 'Email é obrigatório' });
+    }
+    
+    const leadsFile = path.join(__dirname, 'leads.json');
+    let leads = [];
+    
+    if (fs.existsSync(leadsFile)) {
+        leads = JSON.parse(fs.readFileSync(leadsFile, 'utf8'));
+    }
+    
+    // Verificar se já existe
+    if (!leads.includes(email)) {
+        leads.push(email);
+        fs.writeFileSync(leadsFile, JSON.stringify(leads, null, 2));
+        console.log(`📧 Novo lead: ${email}`);
+    }
+    
+    res.json({ success: true, message: 'Email salvo com sucesso!' });
+});
+
+
 app.listen(PORT, () => {
     console.log(`✅ PropostaRelâmpago rodando em http://localhost:${PORT}`);
 });
