@@ -4,6 +4,44 @@
  */
 
 // ============================================
+// FUNÇÃO PARA VERIFICAR EMAIL
+// ============================================
+
+async function verificarEmail() {
+    console.log("🔍 VERIFICANDO EMAIL...");
+    
+    // Verificar se já tem email salvo
+    let email = localStorage.getItem('user_email');
+    
+    if (email && email.includes('@')) {
+        console.log("✅ Email já salvo:", email);
+        return email;
+    }
+    
+    // Se não tem, pede
+    email = prompt('📧 Para gerar seu contrato, digite seu email:');
+    
+    if (!email || !email.includes('@')) {
+        alert('❌ É necessário um email válido para gerar o contrato.');
+        console.log("❌ Email inválido ou cancelado");
+        return null;
+    }
+    
+    // Salvar email
+    localStorage.setItem('user_email', email);
+    console.log("💾 Email salvo:", email);
+    
+    // Enviar para o servidor
+    fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+    }).catch(err => console.error('Erro ao salvar email:', err));
+    
+    return email;
+}
+
+// ============================================
 // LEAD FORM (Email Capture)
 // ============================================
 
@@ -17,14 +55,12 @@ if (leadForm) {
 
         const email = emailInput.value.trim();
 
-        // Validação básica
         if (!email) {
             mostrarMensagem('Por favor, insira um email válido.', 'error');
             return;
         }
 
         try {
-            // Enviar email para API
             const response = await fetch('/api/leads', {
                 method: 'POST',
                 headers: {
@@ -33,24 +69,20 @@ if (leadForm) {
                 body: JSON.stringify({ email })
             });
 
-            const data = await response.json();
-
             if (response.ok) {
-                mostrarMensagem('✅ Email cadastrado com sucesso! Você receberá novidades em breve.', 'success');
+                mostrarMensagem('✅ Email cadastrado com sucesso!', 'success');
                 leadForm.reset();
-                
-                // Rolar para o formulário de contrato após 1 segundo
                 setTimeout(() => {
                     document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' });
                 }, 1000);
             } else if (response.status === 409) {
                 mostrarMensagem('⚠️ Este email já foi cadastrado.', 'error');
             } else {
-                mostrarMensagem('❌ Erro ao processar. Tente novamente.', 'error');
+                mostrarMensagem('❌ Erro ao processar.', 'error');
             }
         } catch (error) {
-            console.error('Erro ao enviar email:', error);
-            mostrarMensagem('❌ Erro de conexão. Tente novamente.', 'error');
+            console.error('Erro:', error);
+            mostrarMensagem('❌ Erro de conexão.', 'error');
         }
     });
 }
@@ -58,8 +90,6 @@ if (leadForm) {
 function mostrarMensagem(texto, tipo) {
     formMessage.textContent = texto;
     formMessage.className = `form-message ${tipo}`;
-    
-    // Limpar mensagem após 5 segundos
     setTimeout(() => {
         formMessage.textContent = '';
         formMessage.className = 'form-message';
@@ -76,6 +106,13 @@ const formStatus = document.getElementById('formStatus');
 if (contratoForm) {
     contratoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // 🔥 VERIFICAR EMAIL ANTES DE GERAR CONTRATO 🔥
+        const email = await verificarEmail();
+        if (!email) {
+            mostrarStatusFormulario('❌ Precisamos do seu email para gerar o contrato.', 'error');
+            return; // BLOQUEIA A GERAÇÃO
+        }
 
         // Coletar dados do formulário
         const nomeContratante = document.getElementById('nomeContratante').value.trim();
@@ -94,7 +131,6 @@ if (contratoForm) {
         try {
             mostrarStatusFormulario('⏳ Gerando contrato...', 'loading');
 
-            // Enviar dados para API
             const response = await fetch('/api/gerar-contrato', {
                 method: 'POST',
                 headers: {
@@ -111,20 +147,17 @@ if (contratoForm) {
             });
 
             if (response.ok) {
-                // Criar blob do PDF e fazer download
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `contrato_${nomeContratante}_${new Date().getTime()}.pdf`;
+                a.download = `contrato_${nomeContratante}_${Date.now()}.pdf`;
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
                 document.body.removeChild(a);
 
-                mostrarStatusFormulario('✅ Contrato gerado com sucesso! Download iniciado.', 'success');
-                
-                // Limpar formulário após sucesso
+                mostrarStatusFormulario('✅ Contrato gerado com sucesso!', 'success');
                 setTimeout(() => {
                     contratoForm.reset();
                     mostrarStatusFormulario('', '');
@@ -134,8 +167,8 @@ if (contratoForm) {
                 mostrarStatusFormulario(`❌ Erro: ${errorData.error}`, 'error');
             }
         } catch (error) {
-            console.error('Erro ao gerar contrato:', error);
-            mostrarStatusFormulario('❌ Erro de conexão. Tente novamente.', 'error');
+            console.error('Erro:', error);
+            mostrarStatusFormulario('❌ Erro de conexão.', 'error');
         }
     });
 }
@@ -149,7 +182,11 @@ function mostrarStatusFormulario(texto, tipo) {
 // VALIDAÇÃO DE FORMULÁRIO EM TEMPO REAL
 // ============================================
 
-// Validar email em tempo real
+function isValidEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
 if (emailInput) {
     emailInput.addEventListener('blur', () => {
         const email = emailInput.value.trim();
@@ -161,7 +198,6 @@ if (emailInput) {
     });
 }
 
-// Validar valor em tempo real
 const valorInput = document.getElementById('valor');
 if (valorInput) {
     valorInput.addEventListener('input', () => {
@@ -172,7 +208,6 @@ if (valorInput) {
     });
 }
 
-// Validar prazo em tempo real
 const prazoInput = document.getElementById('prazo');
 if (prazoInput) {
     prazoInput.addEventListener('input', () => {
@@ -184,40 +219,9 @@ if (prazoInput) {
 }
 
 // ============================================
-// FUNÇÕES AUXILIARES
-// ============================================
-
-/**
- * Validar formato de email
- */
-function isValidEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-}
-
-/**
- * Formatar valor em moeda brasileira
- */
-function formatarMoeda(valor) {
-    return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    }).format(valor);
-}
-
-/**
- * Log de eventos para análise (opcional)
- */
-function logEvento(evento, dados = {}) {
-    console.log(`[PropostaRelâmpago] ${evento}`, dados);
-    // Aqui você pode enviar para um serviço de analytics
-}
-
-// ============================================
 // INICIALIZAÇÃO
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ PropostaRelâmpago carregado com sucesso!');
-    logEvento('Página carregada');
 });
