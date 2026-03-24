@@ -17,8 +17,29 @@ async function verificarEmail() {
             return;
         }
         
-        const email = prompt('📧 Para gerar seu contrato, digite seu email...');
-        // ... resto
+        let email = prompt('📧 Para gerar seu contrato, digite seu email:\n\n(Não enviaremos spam. Só para enviar seu contrato e novidades)');
+        
+        while (!email || !email.includes('@')) {
+            if (email === null) {
+                // Cancelou
+                alert('❌ É necessário informar um email para gerar o contrato.');
+                resolve(null);
+                return;
+            }
+            alert('❌ Email inválido. Digite um email válido (ex: nome@email.com)');
+            email = prompt('📧 Digite seu email válido:');
+        }
+        
+        // Email válido
+        localStorage.setItem('user_email', email);
+        
+        fetch('/api/leads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        }).catch(err => console.error('Erro ao salvar email:', err));
+        
+        resolve(email);
     });
 }
 
