@@ -260,3 +260,4 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ PropostaRelâmpago carregado com sucesso!');
     logEvento('Página carregada');
 });
+
