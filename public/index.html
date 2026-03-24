@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropostaRelâmpago - Contratos em 2 Minutos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>⚡ PropostaRelâmpago</h1>
+            </div>
+            <nav class="nav">
+                <a href="#beneficios">Benefícios</a>
+                <a href="#como-funciona">Como Funciona</a>
+                <a href="#cta" class="nav-cta">Começar Agora</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Crie contratos profissionais em 2 minutos.</h2>
+                <h3>Evite calotes e proteja seu negócio.</h3>
+                <p>Gerador de contratos simples, rápido e confiável para freelancers e MEIs.</p>
+                
+                <!-- Lead Capture Form -->
+                <div class="lead-form">
+                    <form id="leadForm">
+                        <input 
+                            type="email" 
+                            id="emailInput" 
+                            placeholder="seu@email.com" 
+                            required
+                            aria-label="Seu email"
+                        >
+                        <button type="submit" class="btn-primary">Criar meu primeiro contrato grátis</button>
+                    </form>
+                    <p class="form-message" id="formMessage"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefícios -->
+    <section id="beneficios" class="beneficios">
+        <div class="container">
+            <h2>Por que usar PropostaRelâmpago?</h2>
+            <div class="beneficios-grid">
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">⚡</div>
+                    <h3>Rápido</h3>
+                    <p>Crie um contrato profissional em menos de 2 minutos. Sem complicações.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">✓</div>
+                    <h3>Profissional</h3>
+                    <p>Contratos formatados com todas as cláusulas necessárias para proteger seu negócio.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">💰</div>
+                    <h3>Economize</h3>
+                    <p>Evite calotes e desentendimentos. Contratos claros reduzem conflitos.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">📱</div>
+                    <h3>Funciona no Celular</h3>
+                    <p>Crie contratos de qualquer lugar, em qualquer dispositivo.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">🔒</div>
+                    <h3>Seguro</h3>
+                    <p>Seus dados são processados com segurança e não são compartilhados.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">🎁</div>
+                    <h3>Grátis</h3>
+                    <p>Crie seu primeiro contrato totalmente grátis. Sem cartão de crédito.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section id="como-funciona" class="como-funciona">
+        <div class="container">
+            <h2>Como Funciona</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Preencha os dados</h3>
+                    <p>Insira informações do cliente, serviço, valor e prazo.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Gere o contrato</h3>
+                    <p>Clique em "Gerar Contrato" e receba um PDF profissional.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Baixe ou envie</h3>
+                    <p>Baixe o PDF ou envie diretamente por email para o cliente.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Assine e pronto</h3>
+                    <p>Ambas as partes assinam e o contrato está válido.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <h2>Pronto para proteger seu negócio?</h2>
+            <button class="btn-primary btn-large" onclick="document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' })">
+                Criar Meu Primeiro Contrato Agora
+            </button>
+        </div>
+    </section>
+
+    <!-- Formulário de Criação de Contrato -->
+    <section id="formContainer" class="form-section">
+        <div class="container">
+            <h2>Crie Seu Contrato Agora</h2>
+            <form id="contratoForm" class="contrato-form">
+                <div class="form-group">
+                    <label for="nomeContratante">Nome do Cliente (Contratante) *</label>
+                    <input 
+                        type="text" 
+                        id="nomeContratante" 
+                        name="nomeContratante" 
+                        placeholder="Ex: João Silva"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="nomeContratado">Seu Nome (Contratado) *</label>
+                    <input 
+                        type="text" 
+                        id="nomeContratado" 
+                        name="nomeContratado" 
+                        placeholder="Ex: Maria Designer"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="servico">Serviço Prestado *</label>
+                    <input 
+                        type="text" 
+                        id="servico" 
+                        name="servico" 
+                        placeholder="Ex: Design de Logo"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="valor">Valor (R$) *</label>
+                        <input 
+                            type="number" 
+                            id="valor" 
+                            name="valor" 
+                            placeholder="Ex: 500.00"
+                            step="0.01"
+                            min="0"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prazo">Prazo de Entrega (dias) *</label>
+                        <input 
+                            type="number" 
+                            id="prazo" 
+                            name="prazo" 
+                            placeholder="Ex: 7"
+                            min="1"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="formaPagamento">Forma de Pagamento *</label>
+                    <select id="formaPagamento" name="formaPagamento" required>
+                        <option value="">-- Selecione uma opção --</option>
+                        <option value="PIX">PIX</option>
+                        <option value="Transferência Bancária">Transferência Bancária</option>
+                        <option value="Boleto">Boleto</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary btn-large">Gerar Contrato em PDF</button>
+                    <button type="reset" class="btn-secondary">Limpar Formulário</button>
+                </div>
+
+                <p class="form-status" id="formStatus"></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 PropostaRelâmpago. Todos os direitos reservados.</p>
+            <p>Desenvolvido para freelancers e MEIs que querem proteger seu negócio.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
