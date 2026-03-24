@@ -7,6 +7,39 @@
 // LEAD FORM (Email Capture)
 // ============================================
 
+// Função para verificar e salvar email
+async function verificarEmail() {
+    return new Promise((resolve) => {
+        const emailSalvo = localStorage.getItem('user_email');
+        
+        if (emailSalvo) {
+            resolve(emailSalvo);
+            return;
+        }
+        
+        const email = prompt('📧 Para gerar seu contrato, digite seu email:\n\n(Não enviaremos spam. Só para enviar seu contrato e novidades)');
+        
+        if (email && email.includes('@')) {
+            localStorage.setItem('user_email', email);
+            
+            // Salvar no servidor
+            fetch('/api/leads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            }).catch(err => console.error('Erro ao salvar email:', err));
+            
+            resolve(email);
+        } else if (email) {
+            alert('Email inválido. Tente novamente.');
+            verificarEmail().then(resolve);
+        } else {
+            // Usuário cancelou
+            resolve(null);
+        }
+    });
+}
+
 const leadForm = document.getElementById('leadForm');
 const emailInput = document.getElementById('emailInput');
 const formMessage = document.getElementById('formMessage');
@@ -76,6 +109,12 @@ const formStatus = document.getElementById('formStatus');
 if (contratoForm) {
     contratoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+	// Verificar email antes de gerar contrato
+        const email = await verificarEmail();
+        if (!email) {
+            mostrarStatusFormulario('❌ Precisamos do seu email para gerar o contrato.', 'error');
+            return;
+        }
 
         // Coletar dados do formulário
         const nomeContratante = document.getElementById('nomeContratante').value.trim();
