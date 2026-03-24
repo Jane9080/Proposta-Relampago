@@ -1,0 +1,24 @@
+{
+  "name": "proposta-relampago",
+  "version": "1.0.0",
+  "description": "Gerador de contratos profissionais para freelancers e MEIs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "contratos",
+    "freelancers",
+    "MEI",
+    "propostas"
+  ],
+  "author": "PropostaRelâmpago",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pdfkit": "^0.13.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3"
+  }
+}
