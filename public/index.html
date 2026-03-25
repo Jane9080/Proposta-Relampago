@@ -16,32 +16,22 @@
             <nav class="nav">
                 <a href="#beneficios">Benefícios</a>
                 <a href="#como-funciona">Como Funciona</a>
-                <a href="#cta" class="nav-cta">Começar Agora</a>
+                <a href="#formContainer" class="nav-cta">Começar Agora</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (sem lead form) -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <h2>Crie contratos profissionais em 2 minutos.</h2>
                 <h3>Evite calotes e proteja seu negócio.</h3>
                 <p>Gerador de contratos simples, rápido e confiável para freelancers e MEIs.</p>
-                
-                <!-- Lead Capture Form -->
-                <div class="lead-form">
-                    <form id="leadForm">
-                        <input 
-                            type="email" 
-                            id="emailInput" 
-                            placeholder="seu@email.com" 
-                            required
-                            aria-label="Seu email"
-                        >
-                        <button type="submit" class="btn-primary">Criar meu primeiro contrato grátis</button>
-                    </form>
-                    <p class="form-message" id="formMessage"></p>
+                <div class="hero-cta">
+                    <button class="btn-primary btn-large" onclick="document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' })">
+                        Criar Meu Primeiro Contrato Agora
+                    </button>
                 </div>
             </div>
         </div>
@@ -115,16 +105,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section id="cta" class="cta-section">
-        <div class="container">
-            <h2>Pronto para proteger seu negócio?</h2>
-            <button class="btn-primary btn-large" onclick="document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' })">
-                Criar Meu Primeiro Contrato Agora
-            </button>
-        </div>
-    </section>
-
     <!-- Formulário de Criação de Contrato -->
     <section id="formContainer" class="form-section">
         <div class="container">
@@ -132,67 +112,34 @@
             <form id="contratoForm" class="contrato-form">
                 <div class="form-group">
                     <label for="nomeContratante">Nome do Cliente (Contratante) *</label>
-                    <input 
-                        type="text" 
-                        id="nomeContratante" 
-                        name="nomeContratante" 
-                        placeholder="Ex: João Silva"
-                        required
-                    >
+                    <input type="text" id="nomeContratante" placeholder="Ex: João Silva" required>
                 </div>
 
                 <div class="form-group">
                     <label for="nomeContratado">Seu Nome (Contratado) *</label>
-                    <input 
-                        type="text" 
-                        id="nomeContratado" 
-                        name="nomeContratado" 
-                        placeholder="Ex: Maria Designer"
-                        required
-                    >
+                    <input type="text" id="nomeContratado" placeholder="Ex: Maria Designer" required>
                 </div>
 
                 <div class="form-group">
                     <label for="servico">Serviço Prestado *</label>
-                    <input 
-                        type="text" 
-                        id="servico" 
-                        name="servico" 
-                        placeholder="Ex: Design de Logo"
-                        required
-                    >
+                    <input type="text" id="servico" placeholder="Ex: Design de Logo" required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="valor">Valor (R$) *</label>
-                        <input 
-                            type="number" 
-                            id="valor" 
-                            name="valor" 
-                            placeholder="Ex: 500.00"
-                            step="0.01"
-                            min="0"
-                            required
-                        >
+                        <input type="number" id="valor" placeholder="Ex: 500.00" step="0.01" min="0" required>
                     </div>
 
                     <div class="form-group">
                         <label for="prazo">Prazo de Entrega (dias) *</label>
-                        <input 
-                            type="number" 
-                            id="prazo" 
-                            name="prazo" 
-                            placeholder="Ex: 7"
-                            min="1"
-                            required
-                        >
+                        <input type="number" id="prazo" placeholder="Ex: 7" min="1" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="formaPagamento">Forma de Pagamento *</label>
-                    <select id="formaPagamento" name="formaPagamento" required>
+                    <select id="formaPagamento" required>
                         <option value="">-- Selecione uma opção --</option>
                         <option value="PIX">PIX</option>
                         <option value="Transferência Bancária">Transferência Bancária</option>
@@ -202,16 +149,10 @@
                     </select>
                 </div>
 
-                <!-- CAMPO DE EMAIL ADICIONADO -->
+                <!-- Campo de Email -->
                 <div class="form-group">
                     <label for="emailContrato">Seu Email *</label>
-                    <input 
-                        type="email" 
-                        id="emailContrato" 
-                        name="emailContrato" 
-                        placeholder="seu@email.com"
-                        required
-                    >
+                    <input type="email" id="emailContrato" placeholder="seu@email.com" required>
                 </div>
 
                 <div class="form-actions">
@@ -232,7 +173,6 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="app.js"></script>
 </body>
 </html>
