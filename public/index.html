@@ -21,7 +21,7 @@
         </div>
     </header>
 
-    <!-- Hero Section (sem lead form) -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -110,16 +110,39 @@
         <div class="container">
             <h2>Crie Seu Contrato Agora</h2>
             <form id="contratoForm" class="contrato-form">
+                <!-- Dados do Contratante (Cliente) -->
                 <div class="form-group">
                     <label for="nomeContratante">Nome do Cliente (Contratante) *</label>
                     <input type="text" id="nomeContratante" placeholder="Ex: João Silva" required>
                 </div>
 
                 <div class="form-group">
+                    <label for="cpfCnpjContratante">CPF/CNPJ do Cliente *</label>
+                    <input type="text" id="cpfCnpjContratante" placeholder="Ex: 123.456.789-00" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="enderecoContratante">Endereço do Cliente *</label>
+                    <input type="text" id="enderecoContratante" placeholder="Ex: São Paulo, SP" required>
+                </div>
+
+                <!-- Dados do Contratado (Freelancer) -->
+                <div class="form-group">
                     <label for="nomeContratado">Seu Nome (Contratado) *</label>
                     <input type="text" id="nomeContratado" placeholder="Ex: Maria Designer" required>
                 </div>
 
+                <div class="form-group">
+                    <label for="cpfCnpjContratado">Seu CPF/CNPJ *</label>
+                    <input type="text" id="cpfCnpjContratado" placeholder="Ex: 123.456.789-00" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="enderecoContratado">Seu Endereço *</label>
+                    <input type="text" id="enderecoContratado" placeholder="Ex: Rio de Janeiro, RJ" required>
+                </div>
+
+                <!-- Serviço -->
                 <div class="form-group">
                     <label for="servico">Serviço Prestado *</label>
                     <input type="text" id="servico" placeholder="Ex: Design de Logo" required>
@@ -174,8 +197,8 @@
     </footer>
 
     <script src="app.js"></script>
-<script>
-    document.getElementById('anoAtual').textContent = new Date().getFullYear();
-</script>
+    <script>
+        document.getElementById('anoAtual').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
