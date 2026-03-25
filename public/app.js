@@ -7,19 +7,40 @@
 // FUNÇÃO PARA VERIFICAR EMAIL
 // ============================================
 
-async function verificarEmail() {
+// ============================================
+// FUNÇÃO PARA VERIFICAR EMAIL
+// ============================================
+
+async function verificarEmail(emailDoFormulario) {
     console.log("🔍 VERIFICANDO EMAIL...");
     
-    // Verificar se já tem email salvo
-    let email = localStorage.getItem('user_email');
-    
-    if (email && email.includes('@')) {
-        console.log("✅ Email já salvo:", email);
-        return email;
+    // 1. Se o usuário preencheu o campo de email, usa ele
+    if (emailDoFormulario && emailDoFormulario.includes('@')) {
+        console.log("✅ Email do formulário:", emailDoFormulario);
+        
+        // Salvar no localStorage para próximas vezes
+        localStorage.setItem('user_email', emailDoFormulario);
+        
+        // Enviar para o servidor
+        fetch('/api/leads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailDoFormulario })
+        }).catch(err => console.error('Erro:', err));
+        
+        return emailDoFormulario;
     }
     
-    // Se não tem, pede
-    email = prompt('📧 Para gerar seu contrato, digite seu email:');
+    // 2. Se não preencheu, verifica se tem email salvo
+    let emailSalvo = localStorage.getItem('user_email');
+    
+    if (emailSalvo && emailSalvo.includes('@')) {
+        console.log("✅ Email salvo:", emailSalvo);
+        return emailSalvo;
+    }
+    
+    // 3. Se não tem email salvo nem preencheu, pede no popup
+    let email = prompt('📧 Para gerar seu contrato, digite seu email:');
     
     if (!email || !email.includes('@')) {
         alert('❌ É necessário um email válido para gerar o contrato.');
@@ -31,15 +52,15 @@ async function verificarEmail() {
     localStorage.setItem('user_email', email);
     console.log("💾 Email salvo:", email);
     
-    // Enviar para o servidor
     fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
-    }).catch(err => console.error('Erro ao salvar email:', err));
+    }).catch(err => console.error('Erro:', err));
     
     return email;
 }
+
 
 // ============================================
 // LEAD FORM (Email Capture)
@@ -107,11 +128,15 @@ if (contratoForm) {
     contratoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // 🔥 VERIFICAR EMAIL ANTES DE GERAR CONTRATO 🔥
-        const email = await verificarEmail();
+        // Pegar o email do formulário
+        const emailDoFormulario = document.getElementById('emailInputContrato')?.value.trim();
+        
+        // Verificar email (passa o que foi preenchido)
+        const email = await verificarEmail(emailDoFormulario);
+        
         if (!email) {
             mostrarStatusFormulario('❌ Precisamos do seu email para gerar o contrato.', 'error');
-            return; // BLOQUEIA A GERAÇÃO
+            return;
         }
 
         // Coletar dados do formulário
