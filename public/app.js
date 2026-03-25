@@ -38,52 +38,6 @@ async function verificarEmail(emailDoFormulario) {
     return email;
 }
 
-// LEAD FORM
-//const leadForm = document.getElementById('leadForm');
-const emailInput = document.getElementById('emailInput');
-const formMessage = document.getElementById('formMessage');
-
-if (leadForm) {
-    leadForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = emailInput.value.trim();
-        if (!email) {
-            mostrarMensagem('Por favor, insira um email válido.', 'error');
-            return;
-        }
-        try {
-            const response = await fetch('/api/leads', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-            if (response.ok) {
-                mostrarMensagem('✅ Email cadastrado com sucesso!', 'success');
-                leadForm.reset();
-                setTimeout(() => {
-                    document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' });
-                }, 1000);
-            } else if (response.status === 409) {
-                mostrarMensagem('⚠️ Este email já foi cadastrado.', 'error');
-            } else {
-                mostrarMensagem('❌ Erro ao processar.', 'error');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            mostrarMensagem('❌ Erro de conexão.', 'error');
-        }
-    });
-}
-
-function mostrarMensagem(texto, tipo) {
-    formMessage.textContent = texto;
-    formMessage.className = `form-message ${tipo}`;
-    setTimeout(() => {
-        formMessage.textContent = '';
-        formMessage.className = 'form-message';
-    }, 5000);
-}
-
 // CONTRATO FORM
 const contratoForm = document.getElementById('contratoForm');
 const formStatus = document.getElementById('formStatus');
@@ -92,7 +46,7 @@ if (contratoForm) {
     contratoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // ID CORRETO: emailContrato (igual ao HTML)
+        // Email
         const emailDoFormulario = document.getElementById('emailContrato').value.trim();
         const email = await verificarEmail(emailDoFormulario);
         
@@ -101,14 +55,24 @@ if (contratoForm) {
             return;
         }
 
+        // Coletar todos os dados do formulário
         const nomeContratante = document.getElementById('nomeContratante').value.trim();
+        const cpfCnpjContratante = document.getElementById('cpfCnpjContratante').value.trim();
+        const enderecoContratante = document.getElementById('enderecoContratante').value.trim();
+        
         const nomeContratado = document.getElementById('nomeContratado').value.trim();
+        const cpfCnpjContratado = document.getElementById('cpfCnpjContratado').value.trim();
+        const enderecoContratado = document.getElementById('enderecoContratado').value.trim();
+        
         const servico = document.getElementById('servico').value.trim();
         const valor = document.getElementById('valor').value;
         const prazo = document.getElementById('prazo').value;
         const formaPagamento = document.getElementById('formaPagamento').value;
 
-        if (!nomeContratante || !nomeContratado || !servico || !valor || !prazo || !formaPagamento) {
+        // Validação
+        if (!nomeContratante || !cpfCnpjContratante || !enderecoContratante ||
+            !nomeContratado || !cpfCnpjContratado || !enderecoContratado ||
+            !servico || !valor || !prazo || !formaPagamento) {
             mostrarStatusFormulario('❌ Por favor, preencha todos os campos.', 'error');
             return;
         }
@@ -121,7 +85,11 @@ if (contratoForm) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     nomeContratante,
+                    cpfCnpjContratante,
+                    enderecoContratante,
                     nomeContratado,
+                    cpfCnpjContratado,
+                    enderecoContratado,
                     servico,
                     valor,
                     prazo,
@@ -165,6 +133,8 @@ function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// Validação do email em tempo real (se existir o campo)
+const emailInput = document.getElementById('emailInput');
 if (emailInput) {
     emailInput.addEventListener('blur', () => {
         const email = emailInput.value.trim();
