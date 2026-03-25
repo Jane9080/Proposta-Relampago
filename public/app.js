@@ -39,7 +39,7 @@ async function verificarEmail(emailDoFormulario) {
 }
 
 // LEAD FORM
-const leadForm = document.getElementById('leadForm');
+//const leadForm = document.getElementById('leadForm');
 const emailInput = document.getElementById('emailInput');
 const formMessage = document.getElementById('formMessage');
 
