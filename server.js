@@ -149,9 +149,7 @@ app.post('/api/gerar-contrato', (req, res) => {
     doc.font('Helvetica').fontSize(10).text(`Data: ${dataFormatada}`, { align: 'center' });
     doc.moveDown(2);
 
-    // Assinaturas (corrigido: Contratante à esquerda, Contratado à direita)
-    doc.font('Helvetica-Bold').fontSize(10).text('ASSINATURAS', { align: 'center' });
-    doc.moveDown(2);
+   
 
     // Assinatura do Contratante (cliente) - lado esquerdo
     doc.moveTo(80, doc.y).lineTo(280, doc.y).stroke();
