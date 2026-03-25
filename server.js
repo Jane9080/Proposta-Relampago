@@ -151,18 +151,25 @@ app.post('/api/gerar-contrato', (req, res) => {
 
    
 
-    // Assinatura do Contratante (cliente) - lado esquerdo
-    doc.moveTo(80, doc.y).lineTo(280, doc.y).stroke();
-    doc.font('Helvetica').fontSize(9).text(nomeContratante, 80, doc.y + 5, { align: 'center' });
-    doc.text('(Contratante)', 80, doc.y + 5, { align: 'center' });
+    // Assinaturas lado a lado
+doc.font('Helvetica-Bold').fontSize(10).text('ASSINATURAS', { align: 'center' });
+doc.moveDown(1.5);
 
-    // Assinatura do Contratado (freelancer) - lado direito
-    doc.moveTo(320, doc.y - 40).lineTo(520, doc.y - 40).stroke();
-    doc.font('Helvetica').fontSize(9).text(nomeContratado, 320, doc.y - 35, { align: 'center' });
-    doc.text('(Contratado)', 320, doc.y - 35, { align: 'center' });
+// Posição Y inicial para as duas assinaturas
+const yAssinaturas = doc.y;
 
-    doc.end();
-});
+// Assinatura do Contratante (esquerda)
+doc.font('Helvetica').fontSize(9);
+doc.text('(Contratante)', 80, yAssinaturas);
+doc.moveTo(80, yAssinaturas + 15).lineTo(280, yAssinaturas + 15).stroke();
+doc.text(nomeContratante, 80, yAssinaturas + 20, { align: 'center', width: 200 });
+
+// Assinatura do Contratado (direita)
+doc.text('(Contratado)', 320, yAssinaturas);
+doc.moveTo(320, yAssinaturas + 15).lineTo(520, yAssinaturas + 15).stroke();
+doc.text(nomeContratado, 320, yAssinaturas + 20, { align: 'center', width: 200 });
+
+doc.end();
 
 // Rota para listar leads (admin)
 app.get('/api/leads', (req, res) => {
