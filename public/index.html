@@ -7,6 +7,10 @@
 // FUNÇÃO PARA VERIFICAR EMAIL
 // ============================================
 
+// ============================================
+// FUNÇÃO PARA VERIFICAR EMAIL
+// ============================================
+
 async function verificarEmail(emailDoFormulario) {
     console.log("🔍 VERIFICANDO EMAIL...");
     
@@ -124,8 +128,8 @@ if (contratoForm) {
     contratoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Pegar o email do formulário (ID correto: emailContrato)
-        const emailDoFormulario = document.getElementById('emailContrato').value.trim();
+        // Pegar o email do formulário
+        const emailDoFormulario = document.getElementById('emailInputContrato')?.value.trim();
         
         // Verificar email (passa o que foi preenchido)
         const email = await verificarEmail(emailDoFormulario);
