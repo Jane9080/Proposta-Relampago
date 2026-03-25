@@ -131,13 +131,13 @@ app.post('/api/gerar-contrato', (req, res) => {
     doc.text('As partes se comprometem a manter confidencial qualquer informação sensível compartilhada durante a execução do serviço.', { indent: 20 });
     doc.moveDown(0.5);
 
-    // Propriedade Intelectual (NOVO)
+    // Propriedade Intelectual
     doc.font('Helvetica-Bold').fontSize(11).text('8. PROPRIEDADE INTELECTUAL');
     doc.font('Helvetica').fontSize(9);
     doc.text('Após o pagamento integral do valor acordado, o Contratante adquire todos os direitos sobre o material entregue, incluindo arquivos finais. O Contratado mantém o direito de utilizar o trabalho em seu portfólio, salvo acordo em contrário.', { indent: 20 });
     doc.moveDown(0.5);
 
-    // Multa e Juros (NOVO)
+    // Multa e Juros
     doc.font('Helvetica-Bold').fontSize(11).text('9. MULTA E JUROS POR ATRASO');
     doc.font('Helvetica').fontSize(9);
     doc.text('Em caso de atraso no pagamento, será aplicada multa de 2% sobre o valor total e juros de mora de 1% ao mês, calculados pro rata die.', { indent: 20 });
@@ -149,14 +149,16 @@ app.post('/api/gerar-contrato', (req, res) => {
     doc.font('Helvetica').fontSize(10).text(`Data: ${dataFormatada}`, { align: 'center' });
     doc.moveDown(2);
 
-    // Assinaturas
+    // Assinaturas (corrigido: Contratante à esquerda, Contratado à direita)
     doc.font('Helvetica-Bold').fontSize(10).text('ASSINATURAS', { align: 'center' });
     doc.moveDown(2);
 
+    // Assinatura do Contratante (cliente) - lado esquerdo
     doc.moveTo(80, doc.y).lineTo(280, doc.y).stroke();
     doc.font('Helvetica').fontSize(9).text(nomeContratante, 80, doc.y + 5, { align: 'center' });
     doc.text('(Contratante)', 80, doc.y + 5, { align: 'center' });
 
+    // Assinatura do Contratado (freelancer) - lado direito
     doc.moveTo(320, doc.y - 40).lineTo(520, doc.y - 40).stroke();
     doc.font('Helvetica').fontSize(9).text(nomeContratado, 320, doc.y - 35, { align: 'center' });
     doc.text('(Contratado)', 320, doc.y - 35, { align: 'center' });
