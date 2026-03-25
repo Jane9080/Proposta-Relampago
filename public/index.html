@@ -1,252 +1,238 @@
-/**
- * PropostaRelâmpago - JavaScript Principal
- * Manipulação de formulários e interação com API
- */
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropostaRelâmpago - Contratos em 2 Minutos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>⚡ PropostaRelâmpago</h1>
+            </div>
+            <nav class="nav">
+                <a href="#beneficios">Benefícios</a>
+                <a href="#como-funciona">Como Funciona</a>
+                <a href="#cta" class="nav-cta">Começar Agora</a>
+            </nav>
+        </div>
+    </header>
 
-// ============================================
-// FUNÇÃO PARA VERIFICAR EMAIL
-// ============================================
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Crie contratos profissionais em 2 minutos.</h2>
+                <h3>Evite calotes e proteja seu negócio.</h3>
+                <p>Gerador de contratos simples, rápido e confiável para freelancers e MEIs.</p>
+                
+                <!-- Lead Capture Form -->
+                <div class="lead-form">
+                    <form id="leadForm">
+                        <input 
+                            type="email" 
+                            id="emailInput" 
+                            placeholder="seu@email.com" 
+                            required
+                            aria-label="Seu email"
+                        >
+                        <button type="submit" class="btn-primary">Criar meu primeiro contrato grátis</button>
+                    </form>
+                    <p class="form-message" id="formMessage"></p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-// ============================================
-// FUNÇÃO PARA VERIFICAR EMAIL
-// ============================================
+    <!-- Benefícios -->
+    <section id="beneficios" class="beneficios">
+        <div class="container">
+            <h2>Por que usar PropostaRelâmpago?</h2>
+            <div class="beneficios-grid">
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">⚡</div>
+                    <h3>Rápido</h3>
+                    <p>Crie um contrato profissional em menos de 2 minutos. Sem complicações.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">✓</div>
+                    <h3>Profissional</h3>
+                    <p>Contratos formatados com todas as cláusulas necessárias para proteger seu negócio.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">💰</div>
+                    <h3>Economize</h3>
+                    <p>Evite calotes e desentendimentos. Contratos claros reduzem conflitos.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">📱</div>
+                    <h3>Funciona no Celular</h3>
+                    <p>Crie contratos de qualquer lugar, em qualquer dispositivo.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">🔒</div>
+                    <h3>Seguro</h3>
+                    <p>Seus dados são processados com segurança e não são compartilhados.</p>
+                </div>
+                <div class="beneficio-card">
+                    <div class="beneficio-icon">🎁</div>
+                    <h3>Grátis</h3>
+                    <p>Crie seu primeiro contrato totalmente grátis. Sem cartão de crédito.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-async function verificarEmail(emailDoFormulario) {
-    console.log("🔍 VERIFICANDO EMAIL...");
-    
-    // 1. Se o usuário preencheu o campo de email, usa ele
-    if (emailDoFormulario && emailDoFormulario.includes('@')) {
-        console.log("✅ Email do formulário:", emailDoFormulario);
-        
-        // Salvar no localStorage para próximas vezes
-        localStorage.setItem('user_email', emailDoFormulario);
-        
-        // Enviar para o servidor
-        fetch('/api/leads', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: emailDoFormulario })
-        }).catch(err => console.error('Erro:', err));
-        
-        return emailDoFormulario;
-    }
-    
-    // 2. Se não preencheu, verifica se tem email salvo
-    let emailSalvo = localStorage.getItem('user_email');
-    
-    if (emailSalvo && emailSalvo.includes('@')) {
-        console.log("✅ Email salvo:", emailSalvo);
-        return emailSalvo;
-    }
-    
-    // 3. Se não tem email salvo nem preencheu, pede no popup
-    let email = prompt('📧 Para gerar seu contrato, digite seu email:');
-    
-    if (!email || !email.includes('@')) {
-        alert('❌ É necessário um email válido para gerar o contrato.');
-        console.log("❌ Email inválido ou cancelado");
-        return null;
-    }
-    
-    // Salvar email
-    localStorage.setItem('user_email', email);
-    console.log("💾 Email salvo:", email);
-    
-    fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-    }).catch(err => console.error('Erro:', err));
-    
-    return email;
-}
+    <!-- Como Funciona -->
+    <section id="como-funciona" class="como-funciona">
+        <div class="container">
+            <h2>Como Funciona</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Preencha os dados</h3>
+                    <p>Insira informações do cliente, serviço, valor e prazo.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Gere o contrato</h3>
+                    <p>Clique em "Gerar Contrato" e receba um PDF profissional.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Baixe ou envie</h3>
+                    <p>Baixe o PDF ou envie diretamente por email para o cliente.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Assine e pronto</h3>
+                    <p>Ambas as partes assinam e o contrato está válido.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- CTA Section -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <h2>Pronto para proteger seu negócio?</h2>
+            <button class="btn-primary btn-large" onclick="document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' })">
+                Criar Meu Primeiro Contrato Agora
+            </button>
+        </div>
+    </section>
 
-// ============================================
-// LEAD FORM (Email Capture)
-// ============================================
+    <!-- Formulário de Criação de Contrato -->
+    <section id="formContainer" class="form-section">
+        <div class="container">
+            <h2>Crie Seu Contrato Agora</h2>
+            <form id="contratoForm" class="contrato-form">
+                <div class="form-group">
+                    <label for="nomeContratante">Nome do Cliente (Contratante) *</label>
+                    <input 
+                        type="text" 
+                        id="nomeContratante" 
+                        name="nomeContratante" 
+                        placeholder="Ex: João Silva"
+                        required
+                    >
+                </div>
 
-const leadForm = document.getElementById('leadForm');
-const emailInput = document.getElementById('emailInput');
-const formMessage = document.getElementById('formMessage');
+                <div class="form-group">
+                    <label for="nomeContratado">Seu Nome (Contratado) *</label>
+                    <input 
+                        type="text" 
+                        id="nomeContratado" 
+                        name="nomeContratado" 
+                        placeholder="Ex: Maria Designer"
+                        required
+                    >
+                </div>
 
-if (leadForm) {
-    leadForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+                <div class="form-group">
+                    <label for="servico">Serviço Prestado *</label>
+                    <input 
+                        type="text" 
+                        id="servico" 
+                        name="servico" 
+                        placeholder="Ex: Design de Logo"
+                        required
+                    >
+                </div>
 
-        const email = emailInput.value.trim();
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="valor">Valor (R$) *</label>
+                        <input 
+                            type="number" 
+                            id="valor" 
+                            name="valor" 
+                            placeholder="Ex: 500.00"
+                            step="0.01"
+                            min="0"
+                            required
+                        >
+                    </div>
 
-        if (!email) {
-            mostrarMensagem('Por favor, insira um email válido.', 'error');
-            return;
-        }
+                    <div class="form-group">
+                        <label for="prazo">Prazo de Entrega (dias) *</label>
+                        <input 
+                            type="number" 
+                            id="prazo" 
+                            name="prazo" 
+                            placeholder="Ex: 7"
+                            min="1"
+                            required
+                        >
+                    </div>
+                </div>
 
-        try {
-            const response = await fetch('/api/leads', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email })
-            });
+                <div class="form-group">
+                    <label for="formaPagamento">Forma de Pagamento *</label>
+                    <select id="formaPagamento" name="formaPagamento" required>
+                        <option value="">-- Selecione uma opção --</option>
+                        <option value="PIX">PIX</option>
+                        <option value="Transferência Bancária">Transferência Bancária</option>
+                        <option value="Boleto">Boleto</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                    </select>
+                </div>
 
-            if (response.ok) {
-                mostrarMensagem('✅ Email cadastrado com sucesso!', 'success');
-                leadForm.reset();
-                setTimeout(() => {
-                    document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' });
-                }, 1000);
-            } else if (response.status === 409) {
-                mostrarMensagem('⚠️ Este email já foi cadastrado.', 'error');
-            } else {
-                mostrarMensagem('❌ Erro ao processar.', 'error');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            mostrarMensagem('❌ Erro de conexão.', 'error');
-        }
-    });
-}
+                <!-- CAMPO DE EMAIL ADICIONADO -->
+                <div class="form-group">
+                    <label for="emailContrato">Seu Email *</label>
+                    <input 
+                        type="email" 
+                        id="emailContrato" 
+                        name="emailContrato" 
+                        placeholder="seu@email.com"
+                        required
+                    >
+                </div>
 
-function mostrarMensagem(texto, tipo) {
-    formMessage.textContent = texto;
-    formMessage.className = `form-message ${tipo}`;
-    setTimeout(() => {
-        formMessage.textContent = '';
-        formMessage.className = 'form-message';
-    }, 5000);
-}
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary btn-large">Gerar Contrato em PDF</button>
+                    <button type="reset" class="btn-secondary">Limpar Formulário</button>
+                </div>
 
-// ============================================
-// CONTRATO FORM (Contract Generation)
-// ============================================
+                <p class="form-status" id="formStatus"></p>
+            </form>
+        </div>
+    </section>
 
-const contratoForm = document.getElementById('contratoForm');
-const formStatus = document.getElementById('formStatus');
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 PropostaRelâmpago. Todos os direitos reservados.</p>
+            <p>Desenvolvido para freelancers e MEIs que querem proteger seu negócio.</p>
+        </div>
+    </footer>
 
-if (contratoForm) {
-    contratoForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        // Pegar o email do formulário
-        const emailDoFormulario = document.getElementById('emailInputContrato')?.value.trim();
-        
-        // Verificar email (passa o que foi preenchido)
-        const email = await verificarEmail(emailDoFormulario);
-        
-        if (!email) {
-            mostrarStatusFormulario('❌ Precisamos do seu email para gerar o contrato.', 'error');
-            return;
-        }
-
-        // Coletar dados do formulário
-        const nomeContratante = document.getElementById('nomeContratante').value.trim();
-        const nomeContratado = document.getElementById('nomeContratado').value.trim();
-        const servico = document.getElementById('servico').value.trim();
-        const valor = document.getElementById('valor').value;
-        const prazo = document.getElementById('prazo').value;
-        const formaPagamento = document.getElementById('formaPagamento').value;
-
-        // Validação
-        if (!nomeContratante || !nomeContratado || !servico || !valor || !prazo || !formaPagamento) {
-            mostrarStatusFormulario('❌ Por favor, preencha todos os campos.', 'error');
-            return;
-        }
-
-        try {
-            mostrarStatusFormulario('⏳ Gerando contrato...', 'loading');
-
-            const response = await fetch('/api/gerar-contrato', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    nomeContratante,
-                    nomeContratado,
-                    servico,
-                    valor,
-                    prazo,
-                    formaPagamento
-                })
-            });
-
-            if (response.ok) {
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `contrato_${nomeContratante}_${Date.now()}.pdf`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-
-                mostrarStatusFormulario('✅ Contrato gerado com sucesso!', 'success');
-                setTimeout(() => {
-                    contratoForm.reset();
-                    mostrarStatusFormulario('', '');
-                }, 2000);
-            } else {
-                const errorData = await response.json();
-                mostrarStatusFormulario(`❌ Erro: ${errorData.error}`, 'error');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            mostrarStatusFormulario('❌ Erro de conexão.', 'error');
-        }
-    });
-}
-
-function mostrarStatusFormulario(texto, tipo) {
-    formStatus.textContent = texto;
-    formStatus.className = `form-status ${tipo}`;
-}
-
-// ============================================
-// VALIDAÇÃO DE FORMULÁRIO EM TEMPO REAL
-// ============================================
-
-function isValidEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-}
-
-if (emailInput) {
-    emailInput.addEventListener('blur', () => {
-        const email = emailInput.value.trim();
-        if (email && !isValidEmail(email)) {
-            emailInput.style.borderColor = 'var(--danger-color)';
-        } else {
-            emailInput.style.borderColor = '';
-        }
-    });
-}
-
-const valorInput = document.getElementById('valor');
-if (valorInput) {
-    valorInput.addEventListener('input', () => {
-        const valor = parseFloat(valorInput.value);
-        if (valor < 0) {
-            valorInput.value = '';
-        }
-    });
-}
-
-const prazoInput = document.getElementById('prazo');
-if (prazoInput) {
-    prazoInput.addEventListener('input', () => {
-        const prazo = parseInt(prazoInput.value);
-        if (prazo < 1) {
-            prazoInput.value = '';
-        }
-    });
-}
-
-// ============================================
-// INICIALIZAÇÃO
-// ============================================
-
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('✅ PropostaRelâmpago carregado com sucesso!');
-});
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
