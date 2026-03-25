@@ -1,57 +1,34 @@
 /**
  * PropostaRelâmpago - JavaScript Principal
- * Manipulação de formulários e interação com API
  */
-
-// ============================================
-// FUNÇÃO PARA VERIFICAR EMAIL
-// ============================================
-
-// ============================================
-// FUNÇÃO PARA VERIFICAR EMAIL
-// ============================================
 
 async function verificarEmail(emailDoFormulario) {
     console.log("🔍 VERIFICANDO EMAIL...");
     
-    // 1. Se o usuário preencheu o campo de email, usa ele
     if (emailDoFormulario && emailDoFormulario.includes('@')) {
         console.log("✅ Email do formulário:", emailDoFormulario);
-        
-        // Salvar no localStorage para próximas vezes
         localStorage.setItem('user_email', emailDoFormulario);
-        
-        // Enviar para o servidor
         fetch('/api/leads', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: emailDoFormulario })
         }).catch(err => console.error('Erro:', err));
-        
         return emailDoFormulario;
     }
     
-    // 2. Se não preencheu, verifica se tem email salvo
     let emailSalvo = localStorage.getItem('user_email');
-    
     if (emailSalvo && emailSalvo.includes('@')) {
         console.log("✅ Email salvo:", emailSalvo);
         return emailSalvo;
     }
     
-    // 3. Se não tem email salvo nem preencheu, pede no popup
     let email = prompt('📧 Para gerar seu contrato, digite seu email:');
-    
     if (!email || !email.includes('@')) {
         alert('❌ É necessário um email válido para gerar o contrato.');
-        console.log("❌ Email inválido ou cancelado");
         return null;
     }
     
-    // Salvar email
     localStorage.setItem('user_email', email);
-    console.log("💾 Email salvo:", email);
-    
     fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -61,11 +38,7 @@ async function verificarEmail(emailDoFormulario) {
     return email;
 }
 
-
-// ============================================
-// LEAD FORM (Email Capture)
-// ============================================
-
+// LEAD FORM
 const leadForm = document.getElementById('leadForm');
 const emailInput = document.getElementById('emailInput');
 const formMessage = document.getElementById('formMessage');
@@ -73,23 +46,17 @@ const formMessage = document.getElementById('formMessage');
 if (leadForm) {
     leadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const email = emailInput.value.trim();
-
         if (!email) {
             mostrarMensagem('Por favor, insira um email válido.', 'error');
             return;
         }
-
         try {
             const response = await fetch('/api/leads', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
             });
-
             if (response.ok) {
                 mostrarMensagem('✅ Email cadastrado com sucesso!', 'success');
                 leadForm.reset();
@@ -117,10 +84,7 @@ function mostrarMensagem(texto, tipo) {
     }, 5000);
 }
 
-// ============================================
-// CONTRATO FORM (Contract Generation)
-// ============================================
-
+// CONTRATO FORM
 const contratoForm = document.getElementById('contratoForm');
 const formStatus = document.getElementById('formStatus');
 
@@ -128,10 +92,8 @@ if (contratoForm) {
     contratoForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Pegar o email do formulário
-        const emailDoFormulario = document.getElementById('emailInputContrato')?.value.trim();
-        
-        // Verificar email (passa o que foi preenchido)
+        // ID CORRETO: emailContrato (igual ao HTML)
+        const emailDoFormulario = document.getElementById('emailContrato').value.trim();
         const email = await verificarEmail(emailDoFormulario);
         
         if (!email) {
@@ -139,7 +101,6 @@ if (contratoForm) {
             return;
         }
 
-        // Coletar dados do formulário
         const nomeContratante = document.getElementById('nomeContratante').value.trim();
         const nomeContratado = document.getElementById('nomeContratado').value.trim();
         const servico = document.getElementById('servico').value.trim();
@@ -147,7 +108,6 @@ if (contratoForm) {
         const prazo = document.getElementById('prazo').value;
         const formaPagamento = document.getElementById('formaPagamento').value;
 
-        // Validação
         if (!nomeContratante || !nomeContratado || !servico || !valor || !prazo || !formaPagamento) {
             mostrarStatusFormulario('❌ Por favor, preencha todos os campos.', 'error');
             return;
@@ -158,9 +118,7 @@ if (contratoForm) {
 
             const response = await fetch('/api/gerar-contrato', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     nomeContratante,
                     nomeContratado,
@@ -203,13 +161,8 @@ function mostrarStatusFormulario(texto, tipo) {
     formStatus.className = `form-status ${tipo}`;
 }
 
-// ============================================
-// VALIDAÇÃO DE FORMULÁRIO EM TEMPO REAL
-// ============================================
-
 function isValidEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 if (emailInput) {
@@ -226,26 +179,16 @@ if (emailInput) {
 const valorInput = document.getElementById('valor');
 if (valorInput) {
     valorInput.addEventListener('input', () => {
-        const valor = parseFloat(valorInput.value);
-        if (valor < 0) {
-            valorInput.value = '';
-        }
+        if (parseFloat(valorInput.value) < 0) valorInput.value = '';
     });
 }
 
 const prazoInput = document.getElementById('prazo');
 if (prazoInput) {
     prazoInput.addEventListener('input', () => {
-        const prazo = parseInt(prazoInput.value);
-        if (prazo < 1) {
-            prazoInput.value = '';
-        }
+        if (parseInt(prazoInput.value) < 1) prazoInput.value = '';
     });
 }
-
-// ============================================
-// INICIALIZAÇÃO
-// ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('✅ PropostaRelâmpago carregado com sucesso!');
