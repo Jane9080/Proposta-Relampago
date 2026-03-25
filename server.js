@@ -48,9 +48,22 @@ app.post('/api/leads', (req, res) => {
 
 // Rota para gerar contrato PDF
 app.post('/api/gerar-contrato', (req, res) => {
-    const { nomeContratante, nomeContratado, servico, valor, prazo, formaPagamento } = req.body;
+    const { 
+        nomeContratante, 
+        cpfCnpjContratante,
+        enderecoContratante,
+        nomeContratado, 
+        cpfCnpjContratado,
+        enderecoContratado,
+        servico, 
+        valor, 
+        prazo, 
+        formaPagamento 
+    } = req.body;
 
-    if (!nomeContratante || !nomeContratado || !servico || !valor || !prazo || !formaPagamento) {
+    if (!nomeContratante || !cpfCnpjContratante || !enderecoContratante || 
+        !nomeContratado || !cpfCnpjContratado || !enderecoContratado ||
+        !servico || !valor || !prazo || !formaPagamento) {
         return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
     }
 
@@ -67,11 +80,16 @@ app.post('/api/gerar-contrato', (req, res) => {
     doc.moveTo(50, doc.y).lineTo(545, doc.y).stroke();
     doc.moveDown(1);
 
-    // Partes
+    // Partes com CPF/CNPJ e endereço
     doc.font('Helvetica-Bold').fontSize(11).text('1. PARTES CONTRATANTES');
     doc.font('Helvetica').fontSize(10);
     doc.text(`Contratante (Cliente): ${nomeContratante}`, { indent: 20 });
+    doc.text(`CPF/CNPJ: ${cpfCnpjContratante}`, { indent: 20 });
+    doc.text(`Endereço: ${enderecoContratante}`, { indent: 20 });
+    doc.moveDown(0.5);
     doc.text(`Contratado (Prestador): ${nomeContratado}`, { indent: 20 });
+    doc.text(`CPF/CNPJ: ${cpfCnpjContratado}`, { indent: 20 });
+    doc.text(`Endereço: ${enderecoContratado}`, { indent: 20 });
     doc.moveDown(0.5);
 
     // Objeto
@@ -93,7 +111,7 @@ app.post('/api/gerar-contrato', (req, res) => {
     doc.text(`Prazo para entrega: ${prazo} dia(s)`, { indent: 20 });
     doc.moveDown(0.5);
 
-    // Cláusulas
+    // Cláusulas Gerais
     doc.font('Helvetica-Bold').fontSize(11).text('5. CLÁUSULAS GERAIS');
     doc.font('Helvetica').fontSize(9);
     doc.text('5.1 O Contratado compromete-se a executar o serviço com qualidade e dentro do prazo estabelecido.', { indent: 20 });
@@ -111,6 +129,18 @@ app.post('/api/gerar-contrato', (req, res) => {
     doc.font('Helvetica-Bold').fontSize(11).text('7. CONFIDENCIALIDADE');
     doc.font('Helvetica').fontSize(9);
     doc.text('As partes se comprometem a manter confidencial qualquer informação sensível compartilhada durante a execução do serviço.', { indent: 20 });
+    doc.moveDown(0.5);
+
+    // Propriedade Intelectual (NOVO)
+    doc.font('Helvetica-Bold').fontSize(11).text('8. PROPRIEDADE INTELECTUAL');
+    doc.font('Helvetica').fontSize(9);
+    doc.text('Após o pagamento integral do valor acordado, o Contratante adquire todos os direitos sobre o material entregue, incluindo arquivos finais. O Contratado mantém o direito de utilizar o trabalho em seu portfólio, salvo acordo em contrário.', { indent: 20 });
+    doc.moveDown(0.5);
+
+    // Multa e Juros (NOVO)
+    doc.font('Helvetica-Bold').fontSize(11).text('9. MULTA E JUROS POR ATRASO');
+    doc.font('Helvetica').fontSize(9);
+    doc.text('Em caso de atraso no pagamento, será aplicada multa de 2% sobre o valor total e juros de mora de 1% ao mês, calculados pro rata die.', { indent: 20 });
     doc.moveDown(1);
 
     // Data
@@ -144,33 +174,6 @@ app.get('/api/leads', (req, res) => {
 app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
 });
-
-
-// Rota para salvar leads (emails)
-app.post('/api/leads', (req, res) => {
-    const { email } = req.body;
-    
-    if (!email) {
-        return res.status(400).json({ error: 'Email é obrigatório' });
-    }
-    
-    const leadsFile = path.join(__dirname, 'leads.json');
-    let leads = [];
-    
-    if (fs.existsSync(leadsFile)) {
-        leads = JSON.parse(fs.readFileSync(leadsFile, 'utf8'));
-    }
-    
-    // Verificar se já existe
-    if (!leads.includes(email)) {
-        leads.push(email);
-        fs.writeFileSync(leadsFile, JSON.stringify(leads, null, 2));
-        console.log(`📧 Novo lead: ${email}`);
-    }
-    
-    res.json({ success: true, message: 'Email salvo com sucesso!' });
-});
-
 
 app.listen(PORT, () => {
     console.log(`✅ PropostaRelâmpago rodando em http://localhost:${PORT}`);
