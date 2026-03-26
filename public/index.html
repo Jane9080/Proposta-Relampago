@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PropostaRelâmpago - Contratos em 2 Minutos</title>
+    <title>PropostaRelâmpago - Contratos para Freelancers</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -25,9 +25,9 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h2>Crie contratos profissionais em 2 minutos.</h2>
-                <h3>Evite calotes e proteja seu negócio.</h3>
-                <p>Gerador de contratos simples, rápido e confiável para freelancers e MEIs.</p>
+                <h2>Crie contratos profissionais em 2 minutos — mesmo sem experiência</h2>
+                <h3>Proteja seu trabalho e evite calotes com contratos simples e rápidos.</h3>
+                <p>Gerador de contratos para freelancers e MEIs. Grátis para começar.</p>
                 <div class="hero-cta">
                     <button class="btn-primary btn-large" onclick="document.getElementById('formContainer').scrollIntoView({ behavior: 'smooth' })">
                         Criar Meu Primeiro Contrato Agora
@@ -105,12 +105,28 @@
         </div>
     </section>
 
+    <!-- Exemplo de Contrato -->
+    <section class="example-section">
+        <div class="container">
+            <h3>📄 Exemplo de contrato gerado</h3>
+            <div class="example-card">
+                <strong>CONTRATO DE PRESTAÇÃO DE SERVIÇOS</strong><br>
+                Contratante (Cliente): João Silva<br>
+                Contratado (Prestador): Maria Designer<br>
+                Serviço: Design de Logo<br>
+                Valor: R$ 500,00<br>
+                Prazo: 7 dias<br>
+                <em>... cláusulas completas no PDF gerado</em>
+            </div>
+        </div>
+    </section>
+
     <!-- Formulário de Criação de Contrato -->
     <section id="formContainer" class="form-section">
         <div class="container">
             <h2>Crie Seu Contrato Agora</h2>
+            <p style="text-align: center; margin-bottom: 20px;">📝 Responda 4 perguntas e receba seu contrato:</p>
             <form id="contratoForm" class="contrato-form">
-                <!-- Dados do Contratante (Cliente) -->
                 <div class="form-group">
                     <label for="nomeContratante">Nome do Cliente (Contratante) *</label>
                     <input type="text" id="nomeContratante" placeholder="Ex: João Silva" required>
@@ -126,7 +142,6 @@
                     <input type="text" id="enderecoContratante" placeholder="Ex: São Paulo, SP" required>
                 </div>
 
-                <!-- Dados do Contratado (Freelancer) -->
                 <div class="form-group">
                     <label for="nomeContratado">Seu Nome (Contratado) *</label>
                     <input type="text" id="nomeContratado" placeholder="Ex: Maria Designer" required>
@@ -142,7 +157,6 @@
                     <input type="text" id="enderecoContratado" placeholder="Ex: Rio de Janeiro, RJ" required>
                 </div>
 
-                <!-- Serviço -->
                 <div class="form-group">
                     <label for="servico">Serviço Prestado *</label>
                     <input type="text" id="servico" placeholder="Ex: Design de Logo" required>
@@ -172,7 +186,6 @@
                     </select>
                 </div>
 
-                <!-- Campo de Email -->
                 <div class="form-group">
                     <label for="emailContrato">Seu Email *</label>
                     <input type="email" id="emailContrato" placeholder="seu@email.com" required>
@@ -183,8 +196,25 @@
                     <button type="reset" class="btn-secondary">Limpar Formulário</button>
                 </div>
 
+                <!-- AVISO DE TRANSPARÊNCIA -->
+                <div class="disclaimer">
+                    ⚠️ Este é um modelo de contrato baseado em estruturas comuns usadas por freelancers. Recomendamos que o utilizador revise antes de assinar.
+                </div>
+
                 <p class="form-status" id="formStatus"></p>
             </form>
+        </div>
+    </section>
+
+    <!-- Bloco de Credibilidade -->
+    <section class="trust-section">
+        <div class="container">
+            <h3>🔐 Por que confiar?</h3>
+            <div class="trust-grid">
+                <div>✓ Baseado em contratos reais de freelancers</div>
+                <div>✓ Desenvolvido para pequenos negócios e MEIs</div>
+                <div>✓ Simples, claro e personalizável</div>
+            </div>
         </div>
     </section>
 
